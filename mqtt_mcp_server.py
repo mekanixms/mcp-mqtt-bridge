@@ -17,7 +17,7 @@ mcp = FastMCP(
 
 # Check if running on Windows or macOS
 if sys.platform == "win32":
-    MESSAGES_LOG_PATH = 'R:\inMessages.txt'
+    MESSAGES_LOG_PATH = "R:\\inMessages.txt"
 elif sys.platform == "darwin":
     MESSAGES_LOG_PATH = '/Volumes/hgst4T/ClaudeMCP-FS-Folder/inMessages.txt'
 else:
@@ -47,10 +47,10 @@ user_topics = [
 ]
 subscribed_topics = []
 # REPLACE WITH YOUR OWN VALUES
-broker = "192.168.88.243"
-port = 1883
-username = "mqhome"
-password = "ipaq2490b"
+broker = os.environ["CLAUDE_MCP_MQTT_BROKER"]
+port = int(os.environ["CLAUDE_MCP_MQTT_PORT"])
+username = os.environ["CLAUDE_MCP_MQTT_USERNAME"]
+password = os.environ["CLAUDE_MCP_MQTT_PASSWORD"]
 
 def get_connection_credentials()->list:
     global broker, port, username, password
