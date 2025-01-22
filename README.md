@@ -22,15 +22,9 @@ pip install -r requirements.txt
 
 ## Configuration
 
-1. Edit the MQTT broker settings in `mqtt_mcp_server.py`:
-```python
-broker = "your_broker_ip"
-port = 1883
-username = "your_username"
-password = "your_password"
-```
+1. rename .env.example to .env and edit the values to your needs:
 
-Locate claude_desktop_config.json and use the template below to add "MQTT Bridge" to the mcpServers section.
+2. Locate claude_desktop_config.json and use the template below to add "MQTT Bridge" to the mcpServers section.
 MacOs: ~/Library/Application Support/Claude/claude_desktop_config.json
 Windows: C:\Users\<username>\AppData\Roaming\Claude\claude_desktop_config.json
   
@@ -40,14 +34,8 @@ Windows: C:\Users\<username>\AppData\Roaming\Claude\claude_desktop_config.json
     "MQTT Bridge": {
       "command": "/path/to/python3.12",
       "args": [
-        "path/to/mqtt_mcp_server.py"
-      ],
-      "env": {
-        "CLAUDE_MCP_MQTT_BROKER": "your broker ip",
-        "CLAUDE_MCP_MQTT_PORT": "1883",
-        "CLAUDE_MCP_MQTT_USERNAME": "username",
-        "CLAUDE_MCP_MQTT_PASSWORD": "password"
-      }
+        "path/to/mqtt-mcp-bridge/server.py"
+      ]
     }
   }
 }
@@ -55,11 +43,8 @@ Windows: C:\Users\<username>\AppData\Roaming\Claude\claude_desktop_config.json
 
 ## Message Logs
 
-2. Active session messages are logged in different locations based on your operating system:
-- Windows: `R:\inMessages.txt`
-- macOS: `/Volumes/hgst4T/ClaudeMCP-FS-Folder/inMessages.txt`
-- Linux: `/tmp/inMessages.txt`
-Change the path to your own folder.
+3. Active session messages are logged in different locations based on your operating system.
+Change the path to your own folder in .env
 
 ## MCP Tools Available to Claude
 
@@ -78,21 +63,8 @@ Change the path to your own folder.
 
 ## Default Topics
 
-The server automatically subscribes to below topics. Change them to your needs.
-- claude/commands
-- claude/status
-- devices/#
-- mqdevcmds
-- mqperipheralcmds
-- statusupdate
-- DEVCONF
-- PRESENCE
-- DEVLASTWILL
-- DEVONLINE
-- mqhomeintercom
-- DISPLAY
-- SETMIN
-- SETMAX
+The server automatically subscribes to topics in .env
+Change the topics in .env to your needs.
 
 ## Running the Server
 

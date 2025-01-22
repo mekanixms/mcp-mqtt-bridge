@@ -8,6 +8,9 @@ import sys
 import os
 import time
 import asyncio
+from dotenv import load_dotenv
+
+load_dotenv()  # This loads the environment variables from .env
 
 # Create an MCP server with explicit dependencies
 mcp = FastMCP(
@@ -15,13 +18,13 @@ mcp = FastMCP(
     dependencies=["paho-mqtt>=1.6.1"]
 )
 
-# Check if running on Windows or macOS
+# Get messages log path based on platform
 if sys.platform == "win32":
-    MESSAGES_LOG_PATH = "R:\\inMessages.txt"
+    MESSAGES_LOG_PATH = os.getenv("MESSAGES_LOG_PATH_WINDOWS", "inMessages.txt")
 elif sys.platform == "darwin":
-    MESSAGES_LOG_PATH = '/Volumes/hgst4T/ClaudeMCP-FS-Folder/inMessages.txt'
+    MESSAGES_LOG_PATH = os.getenv("MESSAGES_LOG_PATH_MACOS", 'inMessages.txt')
 else:
-    MESSAGES_LOG_PATH = '/tmp/inMessages.txt'
+    MESSAGES_LOG_PATH = os.getenv("MESSAGES_LOG_PATH_LINUX", 'inMessages.txt')
 
 # MQTT client setup
 mqtt_client = None
@@ -29,28 +32,14 @@ is_connected = False
 message_stack_by_topic = {}
 message_stack_by_timestamp = {}
 last_message_timestamp = 0
-user_topics = [
-    "claude/commands",
-    "claude/status", 
-    "devices/#",
-    "mqdevcmds",
-    "mqperipheralcmds",
-    "statusupdate",
-    "DEVCONF",
-    "PRESENCE", 
-    "DEVLASTWILL",
-    "DEVONLINE",
-    "mqhomeintercom",
-    "DISPLAY",
-    "SETMIN",
-    "SETMAX"
-]
+user_topics = os.getenv("MQTT_TOPICS_TO_SUBSCRIBE", "claude/commands,claude/status").split(",")
 subscribed_topics = []
-# REPLACE WITH YOUR OWN VALUES
-broker = os.environ["CLAUDE_MCP_MQTT_BROKER"]
-port = int(os.environ["CLAUDE_MCP_MQTT_PORT"])
-username = os.environ["CLAUDE_MCP_MQTT_USERNAME"]
-password = os.environ["CLAUDE_MCP_MQTT_PASSWORD"]
+
+broker = os.getenv("CLAUDE_MCP_MQTT_BROKER")
+port = int(os.getenv("CLAUDE_MCP_MQTT_PORT"))
+username = os.getenv("CLAUDE_MCP_MQTT_USERNAME")
+password = os.getenv("CLAUDE_MCP_MQTT_PASSWORD")
+
 
 def get_connection_credentials()->list:
     global broker, port, username, password
