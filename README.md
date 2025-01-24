@@ -35,7 +35,13 @@ Windows: C:\Users\<username>\AppData\Roaming\Claude\claude_desktop_config.json
       "command": "/path/to/python3.12",
       "args": [
         "path/to/mqtt-mcp-bridge/server.py"
-      ]
+      ],
+      "env": {
+          "CLAUDE_MCP_MQTT_BROKER": "broker.ip",
+          "CLAUDE_MCP_MQTT_PORT": "port",
+          "CLAUDE_MCP_MQTT_USERNAME": "user",
+          "CLAUDE_MCP_MQTT_PASSWORD": "pass"
+      }
     }
   }
 }

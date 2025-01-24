@@ -247,6 +247,12 @@ async def check_messages_stream() -> dict:
         
         time.sleep(0.1)
 
+@mcp.tool()
+def get_last_message_timestamp()->int:
+    global last_message_timestamp
+    return last_message_timestamp
+
+
 def main():
     global user_topics,mqtt_client
     broker, port, username, password = get_connection_credentials()
